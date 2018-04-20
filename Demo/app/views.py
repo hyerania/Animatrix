@@ -13,3 +13,7 @@ def index():
 def author():
     # Renders author.html.
     return render_template('author.html')
+
+@app.route('/demo')
+def demo():
+    return render_template('demo.html')
