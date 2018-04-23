@@ -39,9 +39,6 @@ anime_id_name = {
     '2904' : "Code Geass: Hangyaku no Lelouch R2"
 }
 
-def user_Similarity_DataFrame(userSim, pivNorm):
-    return pd.DataFrame(userSim, index = pivNorm.columns, columns = pivNorm.columns)
-
 @app.route('/')
 @app.route('/index')
 def index():
@@ -73,12 +70,8 @@ def submit_ratings():
 
     reader = Reader(rating_scale=(1, 10))
     ratingSubset = Dataset.load_from_df(ratingSubset[['user_id', 'anime_id', 'rating']], reader)
-
-    # print "{}: Called submit ratings...".format(now())
-
-    # print "{}: Splitting data... (not really)".format(now())
     trainingRatingSubset, testRatingSubset = train_test_split(ratingSubset, test_size=0.01)
-    algo = SVD()
+    algo = SVD(n_factors = 50, reg_all = 0.05)
     print "{}: Beginning SVD training...".format(now())
     algo.fit(trainingRatingSubset)
     print "{}: End SVD training...".format(now())
@@ -145,31 +138,4 @@ def submit_ratings():
         results.append(result)
         
     results = sorted(results, key = lambda x: x['rating'], reverse=True)
-
-    # anime_ratings = request.form
-    # print pivTrain.shape
-    # new_row = np.zeros(len(pivTrain.iloc[0]))
-    # pivTrain.loc[pivTrain.index.max()+1] = new_row
-    # for key, value in anime_ratings.iteritems():
-    #     pivTrain.loc[pivTrain.index.max(), anime_id_name[key]] = int(value)
-    # pivTrainNorm = create_Normalized_Matrix(pivTrain)
-
-
-    # pivTrainSparse = sp.sparse.csr_matrix(pivTrainNorm.values)
-    # userCosineSim = cosine_similarity(pivTrainSparse.T)
-    # trainUserSimData = user_Similarity_DataFrame(userCosineSim, pivTrainNorm)
-    # new_user_similarity = trainUserSimData.loc[trainUserSimData.index.max()]
-    # print new_user_similarity.sort_values()
-
-    
-    # print trainUserSimData.loc[-1]
     return jsonify(success=True, data = results)
-
-@app.route('/api/animes/ratings/already', methods=['GET'])
-def get_ratings():
-    
-    if (ALREADY_TRAINED):
-        pred = ALREADY_TRAINED.predict(-1, 11711, verbose=True)
-        return jsonify(success=True, data = pred)
-    else:
-        return 'Need to train.'
