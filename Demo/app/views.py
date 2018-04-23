@@ -1,8 +1,49 @@
-from flask import render_template
+from flask import render_template, request, jsonify, url_for
 from app import app
+import cPickle as pickle
+import os
+import scipy as sp
+import scipy.sparse
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.model_selection import train_test_split
+from surprise import SVD
+from surprise.model_selection import cross_validate
+from surprise.model_selection import train_test_split
+from surprise import Dataset
+from surprise import Reader
+from surprise import accuracy
+from datetime import datetime
+
+def now():
+    return str(datetime.now())
+
+infile = open('rating.csv', 'r')
+outfile = open('ratingSubset.csv', 'w')
+
+for i in range(1000000):
+    outfile.write(infile.readline())
 
 
-# ROUTING/VIEW FUNCTIONS
+infile.close()
+outfile.close()
+
+ALREADY_TRAINED = SVD()
+
+anime_id_name = {
+    '32281' : "Kimi no Na wa.",
+    '5114' : "Fullmetal Alchemist: Brotherhood",
+    '9253' : "Steins;Gate",
+    '918' : "Gintama",
+    '32935' : "Haikyuu!!: Karasuno Koukou VS Shiratorizawa Gakuen Koukou",
+    '1535' : "Death Note",
+    '11061' : "Hunter x Hunter (2011)",
+    '2904' : "Code Geass: Hangyaku no Lelouch R2"
+}
+
+def user_Similarity_DataFrame(userSim, pivNorm):
+    return pd.DataFrame(userSim, index = pivNorm.columns, columns = pivNorm.columns)
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -17,3 +58,125 @@ def author():
 @app.route('/demo')
 def demo():
     return render_template('demo.html')
+
+@app.route('/api/animes/ratings', methods=['POST'])
+def submit_ratings():
+    anime_ratings = request.form
+    infile = open('ratingSubset.csv', 'a')
+    user_id = "-1"
+    for key, value in anime_ratings.iteritems():
+        anime_id = key
+        rating = value
+        infile.write("{}, {}, {}\n".format(user_id, anime_id, rating))
+    infile.close()
+
+    ratingSubset = pd.read_csv('ratingSubset.csv')
+    ratingSubset["rating"] = ratingSubset["rating"].replace(to_replace = -1, value = 5)
+
+    reader = Reader(rating_scale=(1, 10))
+    ratingSubset = Dataset.load_from_df(ratingSubset[['user_id', 'anime_id', 'rating']], reader)
+
+    # print "{}: Called submit ratings...".format(now())
+
+    # print "{}: Splitting data... (not really)".format(now())
+    trainingRatingSubset, testRatingSubset = train_test_split(ratingSubset, test_size=0.01)
+    print "{}: Beginning SVD training...".format(now())
+    ALREADY_TRAINED.fit(trainingRatingSubset)
+    print "{}: End SVD training...".format(now())
+
+    predict_list = [
+        820,
+        4181,
+        1575,
+        263,
+        1,
+        30276,
+        11741,
+        12365,
+        28891,
+        199,
+        23273,
+        24701,
+        12355,
+        1575,
+        263,
+        44,
+        1,
+        30276,
+        164,
+        7311,
+        17074,
+        21939,
+        457,
+        2001,
+        245,
+        32983,
+        5258,
+        28957,
+        11665,
+        431,
+        11741,
+        31757,
+        19,
+        12365,
+        32366,
+        30654,
+        20583,
+        19647,
+        4282,
+        10379,
+        22135,
+        21329,
+        31043,
+        7785,
+        3297,
+        30709,
+        6114,
+        31240,
+        4565,
+        5300,
+        9989,
+        24415,
+        11577,
+        10408,
+        28171,
+        32995,
+    ]
+
+    results = []
+    for anime_id in predict_list:
+        pred = ALREADY_TRAINED.predict(-1, anime_id, verbose=True)
+        result = {}
+        result['anime_id'] = anime_id
+        result['rating'] = pred
+        results.append(result)
+        
+    results = sorted(results, key = lambda x: x['rating'])
+
+    # anime_ratings = request.form
+    # print pivTrain.shape
+    # new_row = np.zeros(len(pivTrain.iloc[0]))
+    # pivTrain.loc[pivTrain.index.max()+1] = new_row
+    # for key, value in anime_ratings.iteritems():
+    #     pivTrain.loc[pivTrain.index.max(), anime_id_name[key]] = int(value)
+    # pivTrainNorm = create_Normalized_Matrix(pivTrain)
+
+
+    # pivTrainSparse = sp.sparse.csr_matrix(pivTrainNorm.values)
+    # userCosineSim = cosine_similarity(pivTrainSparse.T)
+    # trainUserSimData = user_Similarity_DataFrame(userCosineSim, pivTrainNorm)
+    # new_user_similarity = trainUserSimData.loc[trainUserSimData.index.max()]
+    # print new_user_similarity.sort_values()
+
+    
+    # print trainUserSimData.loc[-1]
+    return jsonify(success=True, data = results)
+
+@app.route('/api/animes/ratings/already', methods=['GET'])
+def get_ratings():
+    
+    if (ALREADY_TRAINED):
+        pred = ALREADY_TRAINED.predict(-1, 11711, verbose=True)
+        return jsonify(success=True, data = pred)
+    else:
+        return 'Need to train.'

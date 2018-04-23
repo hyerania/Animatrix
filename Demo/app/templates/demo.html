@@ -1,17 +1,253 @@
-{% extends "layout/base.html" %}
+{% extends "layout/base.html" %} {% block content %}
+<div class="loading" id="loadingSpinner">Loading&#8230;</div>
+<div class="container">
+    <div class="starter-template" id="rateAnime">
+        <h1>Rate Previously Seen Anime</h1>
+        <p class="lead">
+            We need your rating on these anime to recommend you some other awesome anime!
+            <br> Please rate the Anime from 0 (Not Seen) to 10 (Oscar Level Amazing).
+        </p>
+        <form id="animeForm" action="/api/animes/ratings" method="post">
+            <div class="row">
+                <div class="col-sm-12 col-md-3 text-center">
+                    <div class="bordered margin-bottom anime-card">
+                        <h4>Kimi no Na wa (Your name)</h4>
+                        <div class="form-group">
+                            <select name="32281" id="32281">
+                                <option value=0>0</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10 selected>10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-{% block content %}
-  <div class="container">
-    <div class="starter-template">
-      <h1>Demo</h1>
-      <p class="lead">
-        Use this document as a way to quickly start any new project.<br>
-        All you get is this text and a mostly barebones HTML document.
-      </p>
+                <div class="col-sm-12 col-md-3 text-center">
+                    <div class="bordered margin-bottom anime-card">
+                        <h4>Fullmetal Alchemist: Brotherhood</h4>
+                        <div class="form-group">
+                            <select name="5114" id="5114">
+                                <option value=0>0</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6 selected>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10>10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-3 text-center">
+                    <div class="bordered margin-bottom anime-card">
+                        <h4>Gintama</h4>
+                        <div class="form-group">
+                            <select name="918" id="918">
+                                <option value=0>0</option>
+                                <option value=1 selected>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10>10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-3 text-center">
+                    <div class="bordered margin-bottom anime-card">
+                        <h4>Steins; Gate</h4>
+                        <div class="form-group">
+                            <select name="9253" id="9253">
+                                <option value=0>0</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8 selected>8</option>
+                                <option value=9>9</option>
+                                <option value=10>10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-3 text-center">
+                    <div class="bordered margin-bottom anime-card">
+                        <h4>Haikyuu!</h4>
+                        <div class="form-group">
+                            <select name="32935" id="32935">
+                                <option value=0>0</option>
+                                <option value=1 selected>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10>10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-3 text-center">
+                    <div class="bordered margin-bottom anime-card">
+                        <h4>Death Note</h4>
+                        <div class="form-group">
+                            <select name="1535" id="1535">
+                                <option value=0>0</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10 selected>10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-3 text-center">
+                    <div class="bordered margin-bottom anime-card">
+                        <h4>Hunter x Hunter</h4>
+                        <div class="form-group">
+                            <select name="11061" id="11061">
+                                <option value=0>0</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5 selected>5</option>
+                                <option value=6>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10>10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-3 text-center">
+                    <div class="bordered margin-bottom anime-card">
+                        <h4>Code Geass R2</h4>
+                        <div class="form-group">
+                            <select name="2904" id="2904">
+                                <option value=0>0</option>
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                <option value=6 selected>6</option>
+                                <option value=7>7</option>
+                                <option value=8>8</option>
+                                <option value=9>9</option>
+                                <option value=10>10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
-  </div>
-{% endblock %}
+    <div class="starter-template" id="resultsAnime">
+        <h1>Anime Recommendations</h1>
+        <p class="lead">
+            Below is our systems anime recommendations based on your ratings from the previous results. Check them out!
+        </p>
+        <div class="row" id="resultsAnimeItems">
+            
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+    crossorigin="anonymous"></script>
+<script type='text/javascript'>
 
-{% block footer %}
-  {% include "include/footer.html" %}
-{% endblock %}
+    document.getElementById("resultsAnime").style.display = "none";
+    var results = [];
+    /* attach a submit handler to the form */
+    $("#animeForm").submit(function (event) {
+
+        /* stop form from submitting normally */
+        event.preventDefault();
+        document.getElementById("loadingSpinner").style.display = "block";
+        /* get the action attribute from the <form action=""> element */
+        var $form = $(this),
+            url = $form.attr('action');
+
+        /* Send the data using post with element id name and name2*/
+        var posting = $.post(url, {
+            32281: $("#32281 option:selected").text(),
+            5114: $("#5114 option:selected").text(),
+            918: $("#918 option:selected").text(),
+            9253: $("#9253 option:selected").text(),
+            32935: $("#32935 option:selected").text(),
+            1535: $("#1535 option:selected").text(),
+            11061: $("#11061 option:selected").text(),
+            2904: $("#2904 option:selected").text(),
+        });
+
+        /* Alerts the results */
+        posting.done(function (data) {
+            results = data.json();
+            document.getElementById("loadingSpinner").style.display = "none";
+            document.getElementById("rateAnime").style.display = "none";
+            document.getElementById("resultsAnime").style.display = "block";
+            let resultsRow = document.getElementById("resultsAnimeItems");
+
+            for (let result of results) {
+                var div = document.createElement("div");
+                div.className = "col-sm-12 col-md-3 text-center";
+
+                var innerDiv = document.createElement("div");
+                div2.className = "bordered margin-bottom anime-card";
+                
+                var header = document.createElement("h4");
+                var node = document.createTextNode(result['anime_id']);
+
+                resultsRow.appendChild(div);
+                var para = document.createElement("p");
+                var node = document.createTextNode(result['rating']);
+                para.appendChild(node);
+                resultsRow.appendChild(para);
+            }
+        });
+    });
+</script> {% endblock %} {% block footer %} {% include "include/footer.html" %} {% endblock %}
