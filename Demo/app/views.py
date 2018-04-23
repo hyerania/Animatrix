@@ -28,8 +28,6 @@ for i in range(1000000):
 infile.close()
 outfile.close()
 
-ALREADY_TRAINED = SVD()
-
 anime_id_name = {
     '32281' : "Kimi no Na wa.",
     '5114' : "Fullmetal Alchemist: Brotherhood",
@@ -80,28 +78,23 @@ def submit_ratings():
 
     # print "{}: Splitting data... (not really)".format(now())
     trainingRatingSubset, testRatingSubset = train_test_split(ratingSubset, test_size=0.01)
+    algo = SVD()
     print "{}: Beginning SVD training...".format(now())
-    ALREADY_TRAINED.fit(trainingRatingSubset)
+    algo.fit(trainingRatingSubset)
     print "{}: End SVD training...".format(now())
 
     predict_list = [
         820,
         4181,
-        1575,
         263,
         1,
-        30276,
-        11741,
-        12365,
         28891,
         199,
         23273,
         24701,
         12355,
         1575,
-        263,
         44,
-        1,
         30276,
         164,
         7311,
@@ -145,13 +138,13 @@ def submit_ratings():
 
     results = []
     for anime_id in predict_list:
-        pred = ALREADY_TRAINED.predict(-1, anime_id, verbose=True)
+        pred = algo.predict(-1, anime_id, verbose=True)
         result = {}
         result['anime_id'] = anime_id
-        result['rating'] = pred
+        result['rating'] = pred.est
         results.append(result)
         
-    results = sorted(results, key = lambda x: x['rating'])
+    results = sorted(results, key = lambda x: x['rating'], reverse=True)
 
     # anime_ratings = request.form
     # print pivTrain.shape
