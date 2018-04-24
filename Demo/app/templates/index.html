@@ -29,18 +29,17 @@
     <p>Various anime recommenders using different filtering algorithms have been developed in attempts to develop a tool that
       provides a useful tool for anime recommendations. In an open source project created by Mayank Bhatia, the primary goal
       of the system was to compare the results of the recommendations to MyAnimeList recommendations through content and
-      collaborative-based filtering using nearest neighbors as the main algorithm [MAYANK BHATIA]. When creating the kNN
+      collaborative-based filtering using nearest neighbors as the main algorithm [6]. When creating the kNN
       model for content-based filtering, Bhatia used 11 nearest neighbors and limited the dataset based on the categorical
       variables of title and genre, with absolutely no use of ratings from the current user or any other user. He demonstrated
       a positive qualitative result with no error measures to compare the predictions to the actual results. When creating
       the kNN model for collaborative-based filtering, he concluded it an unsuccessful approach through visually displaying
       the results, but no error measures to fully comprehend the comparison with MyAnimeList. </p>
-    <p>Another anime tool developed by Tahsin Mayeesha used a content-based filtering through another kNN model [TAHSIN MAYEESHA
-      MEDIUM]. Compared to the previously discussed kNN model however, this tool was developed with a different set of features,
+    <p>Another anime tool developed by Tahsin Mayeesha used a content-based filtering through another kNN model [7]. Compared to the previously discussed kNN model however, this tool was developed with a different set of features,
       specifically targeting genre, type of anime, anime episodes, and anime ratings. In addition, considering the tool only
       provides the top 5 most similar animes, the number of neighbors used was 6 based on the query. The purpose of this
       tool was to explore this approach without the use of text features, considering recommending a second season of a show
-      would be too simplistic [TAHSIN MAYEESHA MEDIUM]. With this setup, the developer demonstrates a positive qualitative
+      would be too simplistic [7]. With this setup, the developer demonstrates a positive qualitative
       approach based on her personal opinion that the recommended animes are similar to the query, which is also a limitation
       to the approach since there is no specific error measures or quantitative approach for comparison in the results of
       the query. In addition, this method also takes advantage of the different features used and is able to successfully
@@ -49,7 +48,7 @@
     <p>In addition to content-based filters, collaborative-filtering is another popular approach for recommendation systems.
       There are very few anime tools that have taken into consideration this approach, most specifically the different types
       of collaborative filtering, including memory-based and model-based. An attempt by Adam M in Kaggle’s anime community
-      was made to implement a type of user-based collaborative filtering through cosine similarity [ADAM M KAGGLE]. This
+      was made to implement a type of user-based collaborative filtering through cosine similarity [2]. This
       approach took the top most similar users to the current user and used their ratings to provide the predictions and
       recommended anime for the current user compared to the typical approach of finding similar users that have rated the
       same anime and then providing recommendations. Without any measure of error, however, it is difficult to analyze the
@@ -403,11 +402,12 @@
     <p>[4] Koren, Yehuda. “Factor in the Neighbors.” ACM Transactions on Knowledge Discovery from Data, vol. 4, no. 1, Jan. 2010, pp. 1–24., doi:10.1145/1644873.1644874.</p>
     <p>[5] “Matrix Factorization-Based Algorithms.” Matrix Factorization-Based Algorithms - Surprise 1 Documentation, surprise.readthedocs.io/en/stable/matrix_factorization.html#surprise.prediction_algorithms.matrix_factorization.SVD.</p>
     <p>[6] Mayank-Bhatia. “Mayank-Bhatia/Anime-Recommender.” GitHub, github.com/Mayank-Bhatia/Anime-Recommender.</p>
-    <p>[7] Miyahara, Koji, and Michael J. Pazzani. “Collaborative Filtering with the Simple Bayesian Classifier.” PRICAI 2000 Topics in Artificial Intelligence Lecture Notes in Computer Science, 2000, pp. 679–689., doi:10.1007/3-540-44533-1_68.</p>
-    <p>[8] Netflix Update: Try This at Home, sifter.org/~simon/journal/20061211.html.</p>
-    <p>[9] Rongfei, Jia, et al. “Using Temporal Information to Improve Predictive Accuracy of Collaborative Filtering Algorithms.” 2010 12th International Asia-Pacific Web Conference, 2010, doi:10.1109/apweb.2010.40.</p>
-    <p>[10] Su, Xiaoyuan, and Taghi M. Khoshgoftaar. “Collaborative Filtering For Multi-Class Data Using Bayesian Networks.” International Journal on Artificial Intelligence Tools, vol. 17, no. 01, 2008, pp. 71–85., doi:10.1142/s0218213008003789.</p>
-    <p>[11] “Using Prediction Algorithms.” Using Prediction Algorithms - Surprise 1 Documentation, surprise.readthedocs.io/en/stable/prediction_algorithms.html#similarity-measures-configuration.</p>
+    <p>[7] Mayeesha, Tahsin. “Recommending Animes Using Nearest Neighbors – Learning Machine Learning – Medium.” Medium, Learning Machine Learning, 30 Jan. 2018, medium.com/learning-machine-learning/recommending-animes-using-nearest-neighbors-61320a1a5934.</p>
+    <p>[8] Miyahara, Koji, and Michael J. Pazzani. “Collaborative Filtering with the Simple Bayesian Classifier.” PRICAI 2000 Topics in Artificial Intelligence Lecture Notes in Computer Science, 2000, pp. 679–689., doi:10.1007/3-540-44533-1_68.</p>
+    <p>[9] Netflix Update: Try This at Home, sifter.org/~simon/journal/20061211.html.</p>
+    <p>[10] Rongfei, Jia, et al. “Using Temporal Information to Improve Predictive Accuracy of Collaborative Filtering Algorithms.” 2010 12th International Asia-Pacific Web Conference, 2010, doi:10.1109/apweb.2010.40.</p>
+    <p>[11] Su, Xiaoyuan, and Taghi M. Khoshgoftaar. “Collaborative Filtering For Multi-Class Data Using Bayesian Networks.” International Journal on Artificial Intelligence Tools, vol. 17, no. 01, 2008, pp. 71–85., doi:10.1142/s0218213008003789.</p>
+    <p>[12] “Using Prediction Algorithms.” Using Prediction Algorithms - Surprise 1 Documentation, surprise.readthedocs.io/en/stable/prediction_algorithms.html#similarity-measures-configuration.</p>
     <br>
   </div>
 </div>
