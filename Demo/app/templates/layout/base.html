@@ -21,6 +21,7 @@
 
     <!-- Your custom styles -->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -48,8 +49,12 @@
           <ul class="nav navbar-nav">
             <li><a href="index">Home</a></li>
             <li><a href="demo">Demo</a></li>
-            <li><a href="author">About Us</a></li>
           </ul>
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="https://www.youtube.com/watch?v=F3O4eudL7Wg" target="_blank"><span class="glyphicon glyphicon-facetime-video"></span> Video</a></li>
+              <li><a href="https://www.kaggle.com/CooperUnion/anime-recommendations-database" target="_blank"><span class="glyphicon glyphicon-file"></span> Dataset</a></li>
+              <li><a href="https://github.com/hyerania/Animatrix" target="_blank"><span class="fab fa-github fa-lg"></span> Code</a></li>
+            </ul>
         </div><!--/.nav-collapse -->
       </div>
     </header>
@@ -70,7 +75,7 @@
     <script src="{{ url_for('static', filename='vendor/jquery/jquery-2.1.4.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/bootstrap/bootstrap-3.3.5-dist/js/bootstrap.min.js') }}"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
-
+    
     <!-- Page specific script files -->
     {% block scripts %}{% endblock %}
 
