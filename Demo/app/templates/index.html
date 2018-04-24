@@ -85,29 +85,27 @@
       of the ‘k’ most similar users who had also rated the same item. The first attempt of this method used very few inbuilt
       data types and APIs, this was not efficient or scalable, so we proceeded to using pandas dataframes and the scikit
       surprise library implementation. We used a basic collaborative filtering method which also took into account a baseline
-      rating. The formula for the rating is as shown below:</p>
+      rating, as shown in Figure 1.</p>
       <img class="center-image" src="static/images/001.png" width="500">
-      <p class="text-center"> <i>Figure 1.</i> Caption.</p>
+      <p class="text-center"> <i>Figure 1.</i> The prediction rating equation for colloborative rating.</p>
       <br>
     <p>We choose k=200, and min_k=1 where k is the maximum number of neighbours (most similar users) to be considered, and min_k
       is the minimum number of users to be considered when predicting the rating of an item i by user u, if the minimum is
       not met, the baseline rating is used by default. We arrived at k=200 through trial and error, ranging the value between
       50 and 1000 to see which yielded the best RMSE value. The similarity function used is the pearson baseline similarity,
-      the formula is as shown below.</p>
+      the formula is shown in Figure 2. This calculation subtracts the ratings with the baseline rating of the corresponding user and not the user’s average
+      rating.</p>
     <img class="center-image" src="static/images/002.png" width="500">
-    <p class="text-center"> <i> Figure 2.</i> Caption.</p>
+    <p class="text-center"> <i> Figure 2.</i> Pearson baseline similarity.</p>
     <br>
-    <p>This calculation subtracts the ratings with the baseline rating of the corresponding user and not the user’s average
-      rating. </p>
     <p>Another consideration when looking at the similarity was shrinkage, this would allow us to avoid overfitting if too few
-      ratings are available. We set the shrinkage parameter to 100 (default), the modified pearson similarity is as follows:</p>
+      ratings are available. We set the shrinkage parameter to 100 (default), the modified pearson similarity is shown in Figure 3.</p>
     <img class="center-image" src="static/images/003.png" width="500">
-    <p class="text-center"> <i> Figure 3.</i> Caption.</p>
+    <p class="text-center"> <i> Figure 3.</i> Pearson similarity with shrinkage.</p>
     <br>
-    <p>There were two methods considered for calculating the baseline rating; stochastic gradient descent (SGD) and alternating
-      least squares (ALS). We chose SGD as it gave us better results. </p>
+    <p>There were two methods considered for calculating the baseline rating, as shown in Figure 4; stochastic gradient descent (SGD) and alternating least squares (ALS). We chose SGD as it gave us better results. </p>
     <img class="center-image" src="static/images/004.png" width="500">
-    <p class="text-center"> <i> Figure 4.</i> Caption.</p>
+    <p class="text-center"> <i> Figure 4.</i> Parameters used for kNN Baseline algorithm.</p>
     <br>
     <p>Here n_epochs corresponds to the number of iterations the SGD runs for, 50 was arrived at after trial and error for the
       best results and learning_rate corresponds to the 𝛾 as seen in [Kor10] which is the learning rate of the SGD, the
@@ -132,10 +130,9 @@
       matrices were also created for the training and test datasets that were initially created. In the prediction function,
       we decided on the n-value for the top-N similar users to be 50 considering the subset data size we used consisted of
       approximately 6,000 users. Based on the equation we used to calculate the aggregation of similar users of a specific
-      item, as shown in [FIGURE BLAH], a user was only selected to be similar to the current user if the item was rated by
-      both users or else only the current user’s average rating was returned. The k value in [FIGURE BLAH] is the normalizing
-      factor and is calculated by taking the weighted average of the similarity between two users. As demonstrated in [FIGURE
-      2 BLAH], the implementation of a cosine user to user rating prediction is able to provide a rating prediction for a
+      item, as shown in Figure 5, a user was only selected to be similar to the current user if the item was rated by
+      both users or else only the current user’s average rating was returned. The k value in Figure 5 is the normalizing
+      factor and is calculated by taking the weighted average of the similarity between two users. As demonstrated in Figure 6, the implementation of a cosine user to user rating prediction is able to provide a rating prediction for a
       particular user, in this case user with ID 3, by taking in consideration the cosine similarity and returning a rating
       of 6.607 for that particular anime “Zombie-Loan”. The same type of implementation was used for the pearson similarity
       by using a covariance through Numpy’s library. In order to further evaluate the results and the accuracy of the prediction,
@@ -150,7 +147,7 @@
       the normalizing factor.</p>
       <br>
     <p>In the item-to-item top-N recommendations, a similar method was used in comparison with user-to-user top-N recommendations,
-      as shown in [FIGURE BLAH]. The similarity measures considered were also cosine and pearson, the average ratings for
+      as shown in Figure 7. The similarity measures considered were also cosine and pearson, the average ratings for
       each item were pre-computed as well for the training and testing data sets, and the top-N items considered was also
       50 considering the same subset of data was used. Unlike the user-to-user equation implemented, this algorithm focused
       on predicting the rating for an anime for a particular user based on the anime ratings of similar anime items. As a
@@ -169,14 +166,14 @@
       make the naive assumption that each “feature” is totally independent (much like the Naive Bayes classifiers). In the
       recommendation context, each user’s opinion could be considered an independent “feature” of the item. Extending the
       classifier further, the recommender attempts to “classify” each item into one of several classes corresponding to each
-      possible rating (e.g. “Class 5/5”, “Class 4/5", and so on).</p>
+      possible rating (e.g. “Class 5/5”, “Class 4/5", and so on). A basic formula for Naive Bayes is shown in Figure 8 and 9.</p>
     <img class="center-image" src="static/images/008.png" width="500">
-    <p class="text-center"> <i>Figure 8.</i> A formula for the basic Naive Bayes implementation [Breese]. On the left is Probability (Class of item
+    <p class="text-center"> <i>Figure 8.</i> A formula for the basic Naive Bayes implementation. On the left is Probability (Class of item
       = a given class GIVEN v1 to vn, each user’s vote). Using Bayes’s Formula to reverse the conditionals, we have the formula
       on the right.</p>
       <br>
     <img class="center-image" src="static/images/009.png" width="500">
-    <p class="text-center"> <i>Figure 9.</i> Another formulation for Naive Bayes [Pazzani]. The right-hand side of this equation mirrors the equation
+    <p class="text-center"> <i>Figure 9.</i> Another variation of formulation for Naive Bayes. The right-hand side of this equation mirrors the equation
       above. It illustrates one simple way to predict a rating: take the rating-class with the highest probability.</p>
       <br>
       <p>Several challenges arose while attempting to design and implement the Naive Bayes model. The first was that the Naive
@@ -187,14 +184,14 @@
       can be estimated from the training set of user votes, but with some difficulty in implementation. There was some trouble
       figuring out the calculations; attempts didn’t vectorize cleanly over the Pandas DataFrames, and using nested for-loops
       is messy and slow. On the other hand, using scikit-learn’s built-in Naive Bayes methods also failed, due to the sparsity
-      and incompleteness of the user-rating matrix (scikit-learn’s built-in requires all data/all features be present). datascience.stackexchange.com/questions/13597/
-      [Possibly remove this link later]</p>
+      and incompleteness of the user-rating matrix (scikit-learn’s built-in requires all data/all features be present).</p>
     <p>With a struggle to get results with Naive Bayes, we decided to switch to a different model-based method. SVD with low-rank
       decomposition was known to be effective, and was a familiar model in the literature. In addition, there were several
       out-of-box solutions for matrix decomposition. Implementing the SVD recommender model came down to choosing which solution
       to use, and building around it. </p>
     <img class="center-image" src="static/images/010.png" width="500">
-    <p class="text-center"> <i>Figure 10.</i> The basic principle behind SVD. The idea is to decompose the user-rating matrix A into three matrices.
+    <p class="text-center"> <i>Figure 10.</i> The basic principle behind SVD. </p>
+    <p>As shown in Figure 10, the idea is to decompose the user-rating matrix A into three matrices.
       Each “latent factor” produced by this decomposition represents some “concept”--perhaps genre, creator, or something
       completely foreign to human intuition. The matrix sigma represents the strength of each latent factor. U is a matrix
       of (number of users rows) by (number of factors columns), representing the user-concept space (which users like which
@@ -211,18 +208,18 @@
     <p>The SVD method provided by scikit-surprise proved more fruitful, as it was designed specifically for the content-recommendation
       context (and not more general contexts, as scipy and sklearn may be). It implemented the SVD algorithm as described
       by Simon Funk and refined by BellKor, who first popularized it during the Netflix Prize competition -- using baselines,
-      biases, regularization, and gradient descent. </p>
-    <img class="center-image" src="static/images/011.png" width="400">
-    <p class="text-center"> <i>Figure 11.</i> The formula for calculating a predicted rating, for user u and item i. Mu represents the global average
+      biases, regularization, and gradient descent. As shown in Figure 11, mu represents the global average
       rating; bu represents the bias for each user (if a user tends to rate higher or lower than the global average), and
       bi represents the bias for each item (if an item tends to be higher or lower than the global average). qiTpu represents
       the matrix multiplication seen earlier, multiplying the item-concept matrix Q by the concept-user matrix P. If an item
-      or user is missing, the bias and matrix multiplication are assumed to be zero. </i>
-    </p>      <br>
-    <img class="center-image" src="static/images/012.png" width="500">
-    <p class="text-center"> <i>Figure 12.</i> The error formula. This error formula measures how far off our q, p, item bias, user bias, and regularization
+      or user is missing, the bias and matrix multiplication are assumed to be zero. The error formula from Figure 12 measures how far off our q, p, item bias, user bias, and regularization
       terms are, in order to tune them to be better. To minimize the total error, each parameter is subject to stochastic
       gradient descent.</p>
+    <img class="center-image" src="static/images/011.png" width="400">
+    <p class="text-center"> <i>Figure 11.</i> The predicted rating formula using a global average rating for user u and item i.</p> 
+    <br>
+    <img class="center-image" src="static/images/012.png" width="500">
+    <p class="text-center"> <i>Figure 12.</i> The error formula using regularization parameters.</p>
       <br>
     <p>To quote Simon Funk:
       <i>“Only problem is, we don't have 8.5B entries, we have 100M entries and 8.4B empty cells. ...But, just because there
@@ -305,7 +302,7 @@
         </tr>
       </tbody>
     </table>
-    <p class="text-center"> <i>Table 1.</i> Caption</p>
+    <p class="text-center"> <i>Table 1.</i> Summary of the MAE and RMSE values for the different type of collaborative filters implemented.</p>
     <br>
     <table class="table table-bordered text-center">
       <thead class="text-center">
@@ -381,16 +378,16 @@
         </tr>
       </tbody>
     </table>
-    <p class="text-center"> <i>Table 2. </i> Summary of the MAE and RMSE values for the different type of collaborative filters implemented </p>
+    <p class="text-center"> <i>Table 2. </i> Summary of the total duration each colloborative filter took to train the models and provide predictions for the data subset.</p>
     <br>
     <p>Through the subset of data we used, the kNN implementation showed a 1.206 RMSE value and a 0.8878 MAE value. A value closer to zero would be an ideal implementation considering it will represent zero error and loss. However, considering rates range from from 1 to 10, these results provide a baseline of comparison with the other methods that were implemented. The user-to-user top-N approach had two measures of similarity, where cosine similarity demonstrated a better MAE and RMSE than pearson similarity, with values 0.8976 and 1.182, respectively, in comparison to pearson’s similarity values of 0.9086 for MAE and 1.195 for RMSE. However, when comparing this approach to that of kNN, it becomes apparent that the MAE value is lower while cosine similarity of user to user is lower than any of these three approaches. Considering only these methods, for the moment, it can be noted that the high RMSE value in kNN could be caused by outliers in the data set causing a larger error for specific terms. This can be caused due to having a specific set of neighbors and not necessarily being strongly correlated to these neighbors. However, considering the MAE is the absolute value of each of the terms, it is able to eliminate this large outlier impact and surprising maintain the lowest MAE value. </p>
-    <p>Unlike user-to-user approach, the item-to-item top-N approach instead provides a lower MAE and RMSE for pearson similarity compared to cosine similarity. The pearson similarity demonstrates 0.8654 for MAE and 1.153 for RMSE while the cosine similarity demonstrates 0.8696 for MAE and 1.154 for RMSE. Taking into consideration all these memory-based methods, it becomes evident that the item-to item top-n approach provided the best accuracy results with the subdataset used, especially using pearson similarity as the similarity weight. However, it is important to note that despite these accuracy measures, the amount of time that it takes to provide these type of computations is unreasonably and unrealistically long. The item-to-item approaches each took approximately six hours compared to the user-to-user approaches that each took approximately two hours to finish computing on the subdataset despite having pre-computed various aspects of the equation. As a result, both of these approaches prove to be unrealistic in providing anime recommendations for users despite their accuracy. </p>
-    <p>Lastly, when we considered the model-based collaborative filtering algorithm, SVD, it was interesting to observe an MAE value of 0.8886 and an RMSE value of 1.2022. It is surprising to realize that this method ranks fourth in MAE values and fifth-best in RMSE efficiency compared to the other collaborative filtering methods. One possible cause for the higher error is that the algorithm was trained on a specific subset of the users (as using the entire dataset would have been too computationally expensive); with a smaller amount of data, each mistake is more pronounced. Another possible cause is that the SVD algorithm overfit the training data (and did not generalize to the test data). To combat this we changed the model to be more general (decreasing the number of latent factors from the default 100 to 50, and increasing the regularization parameter from the default 0.02 to 0.05. A summary of the final accuracy results on the subset data can be seen in [FIGURE BLAH/TABLE]</p>
-    <p>After careful deliberation, our recommender system was implemented with the SVD algorithm. We could have easily taken into consideration only the accuracy results for our recommender system, but the purpose of Animatrix was to be able to provide anime fans with a new recommender tool that did not only consider the content of the anime as part of the recommendation considering it is easy for MyAnimeList to simply recommend the second season of the same show a user is watching as a recommendation. As a result, we wanted to provide a useful tool that would realistically be used by anime fans, and therefore, accuracy and response time were both measures to be taken into consideration. Due to the fact that SVD provided the best response time, especially after training the data set, we decided that our recommender system would be especially useful with a fast response time. In addition, in order to provide recommendations to a random user, we ask for the user to simply input their feedback on a small set of anime. We use this feedback in order to train the model and provide the predictions of animes based on this input. Afterwards, the top 55 animes are returned to the user as recommended items based on the highest predictions provided from the SVD algorithm.</p>
+    <p>Unlike user-to-user approach, the item-to-item top-N approach instead provides a lower MAE and RMSE for pearson similarity compared to cosine similarity. The pearson similarity demonstrates 0.8654 for MAE and 1.153 for RMSE while the cosine similarity demonstrates 0.8696 for MAE and 1.154 for RMSE. Taking into consideration all these memory-based methods, it becomes evident that the item-to item top-n approach provided the best accuracy results with the subdataset used, especially using pearson similarity as the similarity weight. However, it is important to note that despite these accuracy measures, the amount of time that it takes to provide these type of computations is unreasonably and unrealistically long, which is summarized in Table 2. The item-to-item approaches each took approximately six hours compared to the user-to-user approaches that each took approximately two hours to finish computing on the subdataset despite having pre-computed various aspects of the equation. As a result, both of these approaches prove to be unrealistic in providing anime recommendations for users despite their accuracy. </p>
+    <p>Lastly, when we considered the model-based collaborative filtering algorithm, SVD, it was interesting to observe an MAE value of 0.8886 and an RMSE value of 1.2022. It is surprising to realize that this method ranks fourth in MAE values and fifth-best in RMSE efficiency compared to the other collaborative filtering methods. One possible cause for the higher error is that the algorithm was trained on a specific subset of the users (as using the entire dataset would have been too computationally expensive); with a smaller amount of data, each mistake is more pronounced. Another possible cause is that the SVD algorithm overfit the training data (and did not generalize to the test data). To combat this we changed the model to be more general (decreasing the number of latent factors from the default 100 to 50, and increasing the regularization parameter from the default 0.02 to 0.05. A summary of the final accuracy results on the subset data can be seen in Table 1.</p>
+    <p>After careful deliberation, our recommender system was implemented with the SVD algorithm. We could have easily taken into consideration only the accuracy results for our recommender system, but the purpose of Animatrix was to be able to provide anime fans with a new recommender tool that did not only consider the content of the anime as part of the recommendation considering it is easy for MyAnimeList to simply recommend the second season of the same show a user is watching as a recommendation. As a result, we wanted to provide a useful tool that would realistically be used by anime fans, and therefore, accuracy and response time were both measures to be taken into consideration. Due to the fact that SVD provided the best response time, especially after training the data set, we decided that our recommender system would be especially useful with a fast response time. In addition, in order to provide recommendations to a random user, we ask for the user to simply input their feedback on a small set of anime, as shown in Figure 13. We use this feedback in order to train the model and provide the predictions of animes based on this input. Afterwards, the top 55 animes are returned to the user as recommended items based on the highest predictions provided from the SVD algorithm, as shown in Figure 14.</p>
     <a href="static/images/rate-animatrix.png" target="_blank"><img class="center-image" src="static/images/rate-animatrix.png" width="500"></a>
-    <p class="text-center"> <i>Figure 13.</i> Caption. </p> 
+    <p class="text-center"> <i>Figure 13.</i> Sample of animes where a user is requested to provide their ratings, which will be used to train the model. </p> 
     <a href="static/images/ratings-animatrix.png" target="_blank"><img class="center-image" src="static/images/ratings-animatrix.png" width="500"></a>
-    <p class="text-center"> <i>Figure 14.</i> Caption. </p> 
+    <p class="text-center"> <i>Figure 14.</i> Sample of animes with predicted ratings that display after a user has inputted their feedback. </p> 
     <h3>Conclusion and Discussion</h3>
     <p>After implementing various algorithms of collaborative filtering, Animatrix is able to use SVD as its primary method to provide anime recommendations in an accurate and responsive time. However, as described throughout our methods and evaluation, this task definitely had its challenges. Despite Naive Bayes being a method-based CF, it was difficult to model considering the vagueness in information on how to implement the algorithm. This made it difficult to be able to compare the performance of SVD with other method-based filters. Another limitation that became obvious after the accuracy results gathered was the tradeoff between accuracy measures and the response time of the server to provide predictions. This response time was calculated based on the duration of training the models and then providing the predicted values. After comparison of these response times and the accuracy measures, there is an imbalance of practicality for usability and prediction accuracy. In order to have a higher accuracy rate, the algorithms take a much longer time to actually provide these predictions, which explains why SVD does not have the best accuracy yet the fastest time to report the results from the data subset provided. Further investigation should be done on this limitation in order to analyze possible effects and solutions to this issue. An exploration of SVD latent factors, regularization values, and additional parameters along with exploring other method-based algorithms besides SVD would be beneficial in perhaps improving the accuracy measures to help alleviate this trade-off. could help alleviate this trade-off. In addition to these challenges, we also considered possible ethical concerns that could take place with this recommender. Anime is infused from various cultures and based on the type of recommendations that could be provided, we could be negatively representing another culture. In other words, certain anime could be created to comically make fun of another culture, yet it could be disrespectful in that country or illegal to provide such content. As a result, there could be a bias in the recommendations where only a specific set of cultures are being recommended, where some cultures are negatively represented, or where only certain animes are being targeted to a specific demographic.</p>
     <p>Future work should be taken into consideration to further develop the recommender system we have proposed. As noted in our methods, we did use only a subset of the data and increasing the size or even being able to use the entirety of the original data while obtaining a reasonable response rate could provide more comprehensive results. Further investigation is necessary in implementing model-based algorithms with the exploration of featuers in SVD along with other model-based algorithms for comparison in performance. Another aspect that could be worked on is finding a way to take advantage of the low MAE and RMSE values for memory-based algorithms but with a response rate as efficient as SVD. This is similar to the challenge described where there is currently a tradeoff between usability and accuracy. In addition, examining the potential effects of implicit feedback in order to improve the accuracy results along with the conjunction of multiple algorithm implementations could possibly take advantage of the accuracy achieved through memory-based algorithms and the quick response rate of the SVD algorithm.</p>
