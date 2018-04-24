@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, url_for
+from flask import render_template, request, jsonify, url_for, redirect
 from app import app
 import cPickle as pickle
 import os
@@ -40,15 +40,8 @@ anime_id_name = {
 }
 
 @app.route('/')
-@app.route('/index')
-def index():
-    # Renders index.html.
-    return render_template('index.html')
-
-@app.route('/author')
-def author():
-    # Renders author.html.
-    return render_template('author.html')
+def root():
+    return redirect("/demo", code=302)
 
 @app.route('/demo')
 def demo():
